@@ -42,6 +42,7 @@ export default class Calculator {
   // O: string - total
   calculate(input) {
     const inputs = this._getInputs(input);
+    const negativeInputs = [];
     let total = 0;
 
     // if (inputs.length > 2) {
@@ -49,9 +50,19 @@ export default class Calculator {
     // }
 
     for (let i = 0; i < inputs.length; i++) {
-      if (Number(inputs[i])) {
-        total += Math.round(Number(inputs[i]));
+      const currNum = Number(inputs[i]);
+
+      if (currNum) {
+        if (currNum < 0) {
+          negativeInputs.push(currNum);
+        }
+
+        total += Math.round(currNum);
       }
+    }
+
+    if (negativeInputs.length > 0) {
+      throw new this._calculatorException('Negative Input Exception', 'Please only enter positive numbers. Affected numbers: ' + negativeInputs.join(','));
     }
 
     return total.toString();

@@ -28,7 +28,7 @@ describe('', () => {
 
   it('should calculate the addition of two inputs, including negatives', () => {
     expect(Calculator.calculate('1,5000')).to.equal('5001');
-    expect(Calculator.calculate('4,-3')).to.equal('1');
+    // expect(Calculator.calculate('4,-3')).to.equal('1');
     expect(Calculator.calculate('20')).to.equal('20');
   });
 
@@ -45,12 +45,25 @@ describe('', () => {
   it('should calculate any number of inputs', () => {
     expect(Calculator.calculate('1,2,3,4,5,6,7,8,9,10,11,12')).to.equal('78');
     expect(Calculator.calculate('2,e,4,e,6,e,8,e,10')).to.equal('30');
-    expect(Calculator.calculate('1,3,5,10,-5,-3,-1')).to.equal('10');
-    expect(Calculator.calculate('-1,-3,-5,-10')).to.equal('-19');
+    // expect(Calculator.calculate('1,3,5,10,-5,-3,-1')).to.equal('10');
+    // expect(Calculator.calculate('-1,-3,-5,-10')).to.equal('-19');
   });
 
   it('should calculate any number of inputs with new delimiter "\\n"', () => {
     expect(Calculator.calculate('1\\n2,3')).to.equal('6');
     expect(Calculator.calculate('\\n2\\n3\\n5,6')).to.equal('16');
   });
+
+  it('should deny negative numbers', () => {
+    let errorMessage = '';
+
+    try {
+      Calculator.calculate(',0,,,-1, -2\\n1,-3');
+    }
+    catch (e) {
+      errorMessage += e.message;
+    }
+
+    expect(errorMessage).to.equal('Please only enter positive numbers. Affected numbers: -1,-2,-3')
+  })
 });
