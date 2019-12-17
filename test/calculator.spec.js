@@ -82,4 +82,9 @@ describe('Calculator Unit Tests', () => {
     expect(Calculator.calculate('//[***]\\n11***22***33')).to.equal('66');
     expect(Calculator.calculate('//[rrrr]\\nrrrr5rrrr2rrrr1,2\\n10')).to.equal('20');
   });
+
+  it('should accept a new format with any number of custom delimiters of any length', () => {
+    expect(Calculator.calculate('//[*][!!][r9r]\\n11r9r22*hh*33!!44')).to.equal('110');
+    expect(Calculator.calculate('//[*][!!][r9r][rrrr]\\n22r9r11*r9r*33!!4rrrr10,80\\n40')).to.equal('200');
+  });
 });

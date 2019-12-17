@@ -108,7 +108,20 @@ export default class Calculator {
       translatedStr = string.slice(5);
     } else if (string.slice(0,3) === '//[') {
       const end = string.indexOf(']\\n');
-      delimiters.push(string.slice(3,end));
+
+      let curr = 3;
+      let delimStart = 3;
+
+      while (curr <= end) {
+        if (string[curr] === ']') {
+          delimiters.push(string.slice(delimStart, curr));
+          curr += 2;
+          delimStart = curr;
+        } else {
+          curr += 1;
+        }
+      }
+
       translatedStr = string.slice(end+3);
     } else {
       translatedStr = string;
