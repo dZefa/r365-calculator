@@ -24,10 +24,23 @@ class MainView extends Component {
     });
   }
 
-  handleClick() {
-    const { answer, calc_input, calculator } = this.state;
+  handleClick(e) {
+    e.preventDefault();
 
-    // TODO: Calculator
+    const { calc_input, calculator } = this.state;
+
+    let answer = '';
+
+    try {
+      answer = calculator.calculate(calc_input);
+    }
+    catch (e) {
+      answer = e.message;
+    }
+    
+    this.setState({
+      answer
+    });
   }
 
   render() {
@@ -36,7 +49,7 @@ class MainView extends Component {
     return (
       <div className="row mt-5">
         <div className="col-md-4 offset-md-1">
-          <p>{answer}</p>
+          <p>Answer: {answer}</p>
           <CalculatorView
             value={calc_input}
             changeHandler={this.handleChange}

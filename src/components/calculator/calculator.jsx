@@ -8,7 +8,7 @@ const CalculatorView = ({ value, changeHandler, clickHandler }) => (
     <input type="text" id="calc_input" className="form-control" value={value} onChange={changeHandler} />
   </div>
   <div className="form-grou">
-    <button type="button" id="calc_btn" className="form-control btn btn-primary" onClick={clickHandler} >Calculate</button>
+    <button type="submit" id="calc_btn" className="form-control btn btn-primary" onClick={clickHandler} >Calculate</button>
   </div>
 </form>
 );
