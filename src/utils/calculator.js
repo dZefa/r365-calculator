@@ -8,13 +8,35 @@ export default class Calculator {
     this.name = name;
   }
 
-  // I - delimiters: string[]
-  // I - string: string
+  // I - delimiterStr: string
   // O - string
-  _replaceDelimiters(delimiters, string) {
-    const regExp = new RegExp(`\\${delimiters[0]}`, 'gi');
+  _escapeDelimiterChars(delimiterStr) {
+    const specialChars = {
+      '*': true,
+      '^': true,
+      '$': true,
+      '.': true,
+      '|': true,
+      '?': true,
+      '\\': true,
+      '+': true,
+      '(': true,
+      ')': true,
+      '[': true,
+      '{': true,
+    };
 
-    return string.replace(regExp, ',');
+    let escapedStr = '';
+
+    for (let i = 0; i < delimiterStr.length; i++) {
+      if (specialChars[delimiterStr[i]]) {
+        escapedStr += '\\';
+      }
+
+      escapedStr += delimiterStr[i];
+    }
+
+    return escapedStr;
   }
 
   // I - string: string
@@ -56,6 +78,25 @@ export default class Calculator {
     return inputs;
   }
 
+  // I - delimiters: string[]
+  // I - string: string
+  // O - string
+  _replaceDelimiters(delimiters, string) {
+    let delimiterStr = '';
+
+    for (let i = 0; i < delimiters.length; i++) {
+      if (delimiterStr === '') {
+        delimiterStr += this._escapeDelimiterChars(delimiters[i]);
+      } else {
+        delimiterStr += '|' + this._escapeDelimiterChars(delimiters[i]);
+      }
+    }
+
+    const regExp = new RegExp(`${delimiterStr}`, 'gi');
+
+    return string.replace(regExp, ',');
+  }
+
   // I - string: string
   // O - { delimiters: string[], translatedStr: string }
   _translateString(string) {
@@ -65,6 +106,10 @@ export default class Calculator {
     if (string.slice(0,2) === '//' && string.slice(3,5) === '\\n') {
       delimiters.push(string[2]);
       translatedStr = string.slice(5);
+    } else if (string.slice(0,3) === '//[') {
+      const end = string.indexOf(']\\n');
+      delimiters.push(string.slice(3,end));
+      translatedStr = string.slice(end+3);
     } else {
       translatedStr = string;
     }

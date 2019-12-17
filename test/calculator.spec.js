@@ -77,4 +77,9 @@ describe('Calculator Unit Tests', () => {
     expect(Calculator.calculate('//#\\n2#5')).to.equal('7');
     expect(Calculator.calculate('//*\\n10,100***1')).to.equal('111');
   });
+
+  it('should accept a new format with a custom delimiter of any length', () => {
+    expect(Calculator.calculate('//[***]\\n11***22***33')).to.equal('66');
+    expect(Calculator.calculate('//[rrrr]\\nrrrr5rrrr2rrrr1,2\\n10')).to.equal('20');
+  });
 });
