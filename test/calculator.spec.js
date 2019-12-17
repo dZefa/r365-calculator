@@ -48,4 +48,9 @@ describe('', () => {
     expect(Calculator.calculate('1,3,5,10,-5,-3,-1')).to.equal('10');
     expect(Calculator.calculate('-1,-3,-5,-10')).to.equal('-19');
   });
+
+  it('should calculate any number of inputs with new delimiter "\\n"', () => {
+    expect(Calculator.calculate('1\\n2,3')).to.equal('6');
+    expect(Calculator.calculate('\\n2\\n3\\n5,6')).to.equal('16');
+  });
 });
