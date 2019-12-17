@@ -1,27 +1,45 @@
 export default class Calculator {
   constructor() { }
 
-  // I: string - name
-  // I: string - message
+  // I - name: string
+  // I - message: string
   _calculatorException(name, message) {
     this.message = message;
     this.name = name;
   }
 
-  // I: string - input
-  // O: input[]
+  // I - delimiters: string[]
+  // I - string: string
+  // O - string
+  _replaceDelimiters(delimiters, string) {
+    const regExp = new RegExp(`\\${delimiters[0]}`, 'gi');
+
+    return string.replace(regExp, ',');
+  }
+
+  // I - string: string
+  // O - inputs: input[]
   _getInputs(string) {
     const inputs = [];
+    const { delimiters, translatedStr } = this._translateString(string);
+    let inputString = '';
+
+    if (delimiters.length > 0) {
+      inputString = this._replaceDelimiters(delimiters, translatedStr);
+    } else {
+      inputString = translatedStr;
+    }
+
     let numStart = 0;
     let curr = 0;
     
-    while (curr < string.length) {
-      if ((string[curr] === ',') || (string[curr] === '\\' && string[curr + 1] === 'n')) {
+    while (curr < inputString.length) {
+      if ((inputString[curr] === ',') || (inputString[curr] === '\\' && inputString[curr + 1] === 'n')) {
         if (!(numStart === 0 && curr === 0)) {
-          inputs.push(string.slice(numStart, curr));
+          inputs.push(inputString.slice(numStart, curr));
         }
 
-        if (string[curr] === ',') {
+        if (inputString[curr] === ',') {
           curr += 1;
         } else {
           curr += 2;
@@ -33,13 +51,29 @@ export default class Calculator {
       }
     }
 
-    inputs.push(string.slice(numStart));
+    inputs.push(inputString.slice(numStart));
 
     return inputs;
   }
 
-  // I: string - input
-  // O: string - total
+  // I - string: string
+  // O - { delimiters: string[], translatedStr: string }
+  _translateString(string) {
+    let delimiters = [];
+    let translatedStr = '';
+
+    if (string.slice(0,2) === '//' && string.slice(3,5) === '\\n') {
+      delimiters.push(string[2]);
+      translatedStr = string.slice(5);
+    } else {
+      translatedStr = string;
+    }
+
+    return { delimiters, translatedStr };
+  }
+
+  // I - input: string
+  // O - total: string
   calculate(input) {
     const inputs = this._getInputs(input);
     const negativeInputs = [];

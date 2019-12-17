@@ -71,4 +71,10 @@ describe('Calculator Unit Tests', () => {
     expect(Calculator.calculate('2,1001,6')).to.equal('8');
     expect(Calculator.calculate(' \\n5000,2000,1000\\n')).to.equal('1000');
   });
+
+  it('should accept a new format with a single character custom delimiter', () => {
+    expect(Calculator.calculate('//,\\n2,ff,100')).to.equal('102');
+    expect(Calculator.calculate('//#\\n2#5')).to.equal('7');
+    expect(Calculator.calculate('//*\\n10,100***1')).to.equal('111');
+  });
 });
