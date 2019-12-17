@@ -131,10 +131,12 @@ export default class Calculator {
   }
 
   // I - input: string
-  // O - total: string
+  // O - { answer: string, total: string }
   calculate(input) {
     const inputs = this._getInputs(input);
     const negativeInputs = [];
+
+    let formula = '';
     let total = 0;
 
     // if (inputs.length > 2) {
@@ -143,6 +145,7 @@ export default class Calculator {
 
     for (let i = 0; i < inputs.length; i++) {
       const currNum = Number(inputs[i]);
+      let formulaNum = '0';
 
       if (currNum) {
         if (currNum < 0) {
@@ -151,7 +154,14 @@ export default class Calculator {
 
         if (currNum <= 1000) {
           total += Math.round(currNum);
+          formulaNum = `${currNum}`;
         }
+      }
+
+      if (formula === '') {
+        formula += formulaNum;
+      } else {
+        formula += '+' + formulaNum;
       }
     }
 
@@ -159,6 +169,6 @@ export default class Calculator {
       throw new this._calculatorException('Negative Input Exception', 'Please only enter positive numbers. Affected numbers: ' + negativeInputs.join(','));
     }
 
-    return total.toString();
+    return { answer: formula + ' = ' + total.toString(), total: total.toString() };
   }
 }

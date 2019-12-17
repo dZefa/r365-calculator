@@ -32,7 +32,7 @@ class MainView extends Component {
     let answer = '';
 
     try {
-      answer = calculator.calculate(calc_input);
+      answer = calculator.calculate(calc_input).answer;
     }
     catch (e) {
       answer = e.message;
