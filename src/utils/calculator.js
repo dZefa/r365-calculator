@@ -57,7 +57,9 @@ export default class Calculator {
           negativeInputs.push(currNum);
         }
 
-        total += Math.round(currNum);
+        if (currNum <= 1000) {
+          total += Math.round(currNum);
+        }
       }
     }
 

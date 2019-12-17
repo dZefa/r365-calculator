@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import calculator from '../src/utils/calculator';
 
-describe('', () => {
+describe('Calculator Unit Tests', () => {
   let Calculator;
 
   before(() => {
@@ -27,7 +27,7 @@ describe('', () => {
   // });
 
   it('should calculate the addition of two inputs, including negatives', () => {
-    expect(Calculator.calculate('1,5000')).to.equal('5001');
+    expect(Calculator.calculate('1,5000')).to.equal('1');
     // expect(Calculator.calculate('4,-3')).to.equal('1');
     expect(Calculator.calculate('20')).to.equal('20');
   });
@@ -65,5 +65,10 @@ describe('', () => {
     }
 
     expect(errorMessage).to.equal('Please only enter positive numbers. Affected numbers: -1,-2,-3')
-  })
+  });
+
+  it('should invalidate numbers greater than 1000', () => {
+    expect(Calculator.calculate('2,1001,6')).to.equal('8');
+    expect(Calculator.calculate(' \\n5000,2000,1000\\n')).to.equal('1000');
+  });
 });
